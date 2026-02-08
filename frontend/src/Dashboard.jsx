@@ -223,13 +223,11 @@ export default function Dashboard() {
           setConcertsLoading(true);
           setConcertsError("");
       
+          // Pull multiple pages so we have more than 5
+          const PAGES_TO_FETCH = 10; // change to 2/4/etc
           const allEvents = [];
-          let page = 1;
       
-          // safety cap so you don't infinite-loop if the backend repeats pages
-          const MAX_PAGES = 50;
-      
-          while (page <= MAX_PAGES) {
+          for (let page = 1; page <= PAGES_TO_FETCH; page++) {
             const url = `/api/concerts?city=Austin,TX&page=${page}`;
       
             const res = await fetch(url, {
@@ -244,13 +242,10 @@ export default function Dashboard() {
       
             const data = await res.json();
             const events = Array.isArray(data?.events) ? data.events : [];
-      
-            // ✅ stop when there's no more
-            if (events.length === 0) break;
-      
             allEvents.push(...events);
       
-            page += 1;
+            // If a page returns nothing, stop early
+            if (events.length === 0) break;
           }
       
           const formattedEvents = allEvents.map((event) => {
@@ -293,7 +288,6 @@ export default function Dashboard() {
           setConcertsLoading(false);
         }
       };
-      
       
 
     fetchConcerts();
