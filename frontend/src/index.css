@@ -1190,6 +1190,16 @@ input::placeholder {
   color: #fbbf24;
 }
 
+.per-card:nth-child(5) .pc-tags span:nth-child(1) {
+  background: rgba(249, 115, 22, 0.2);
+  color: #f97316;
+}
+
+.per-card:nth-child(5) .pc-tags span:nth-child(2) {
+  background: rgba(249, 115, 22, 0.2);
+  color: #f97316;
+}
+
 .vibe-match {
   margin-top: auto;
   display: flex;
@@ -1244,6 +1254,13 @@ input::placeholder {
   background: linear-gradient(to bottom, #333, #111);
   width: 100%;
   position: relative;
+}
+
+.cc-ph-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* Date Badge over image */
@@ -1662,6 +1679,8 @@ input::placeholder {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-height: 450px;
+  /* Ensure content doesn't jump too much vertically */
 }
 
 .survey-question {
@@ -1670,6 +1689,8 @@ input::placeholder {
   margin-bottom: 32px;
   line-height: 1.2;
   color: white;
+  min-height: 80px;
+  /* Stabilize height for 2-3 line questions */
 }
 
 .survey-options-grid {
@@ -1726,6 +1747,7 @@ input::placeholder {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  flex: 1;
 }
 
 .survey-textarea {
@@ -2126,4 +2148,150 @@ input::placeholder {
 
 .btn-logout:hover {
   background: rgba(239, 68, 68, 0.1);
+}
+
+/* SURVEY SEARCH STYLES */
+.survey-search-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.survey-search-input {
+  width: 100%;
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 14px 44px 14px 16px;
+  border-radius: 12px;
+  font-size: 15px;
+  transition: border-color 0.2s;
+}
+
+.survey-search-input:focus {
+  outline: none;
+  border-color: #1ed760;
+}
+
+.search-loader-mini {
+  position: absolute;
+  right: 16px;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #1ed760;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+.selected-concerts-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.selected-tag {
+  background: rgba(30, 215, 96, 0.1);
+  border: 1px solid rgba(30, 215, 96, 0.3);
+  color: #1ed760;
+  padding: 6px 12px;
+  border-radius: 100px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.remove-tag {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.remove-tag:hover {
+  opacity: 1;
+}
+
+.survey-search-results {
+  max-height: 250px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 4px;
+}
+
+.survey-search-results::-webkit-scrollbar {
+  width: 4px;
+}
+
+.survey-search-results::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.survey-search-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border: 1px solid transparent;
+}
+
+.survey-search-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.ssi-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  background-size: cover;
+  background-position: center;
+  background-color: #222;
+}
+
+.ssi-info {
+  flex: 1;
+}
+
+.ssi-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+}
+
+.ssi-place {
+  font-size: 12px;
+  color: #888;
+}
+
+.ssi-add {
+  font-size: 18px;
+  color: #888;
+  padding: 0 8px;
+}
+
+.no-results-survey {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-size: 14px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

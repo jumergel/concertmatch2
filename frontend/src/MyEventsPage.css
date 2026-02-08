@@ -1,0 +1,113 @@
+/* Reusing some classes from CommunityPage.css implicitly from global scope or duplicates? 
+Let's just be specific */
+
+.event-row {
+    display: flex;
+    align-items: center;
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    position: relative;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.event-row:hover {
+    background: #222;
+    transform: translateY(-2px);
+}
+
+.er-thumb {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    background-size: cover;
+    background-position: center;
+    margin-right: 16px;
+}
+
+.er-info {
+    flex: 1;
+}
+
+.er-meta {
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.er-artist {
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 2px;
+}
+
+.er-place {
+    font-size: 13px;
+    color: var(--dim);
+    margin-bottom: 4px;
+}
+
+.er-status {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.er-status.going {
+    color: var(--green);
+}
+
+.er-status.looking {
+    color: var(--muted);
+    font-style: italic;
+}
+
+.er-status.went {
+    color: var(--green);
+}
+
+.er-price {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--green);
+    align-self: flex-start;
+    margin-top: 4px;
+}
+
+.dimmed {
+    opacity: 0.7;
+}
+
+/* STATS */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.stat-card {
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--green);
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--dim);
+    letter-spacing: 1px;
+}

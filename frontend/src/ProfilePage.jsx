@@ -1,7 +1,8 @@
-
 import { useState, useEffect } from 'react'
 import { supabase } from './supabase'
 import { useNavigate } from 'react-router-dom'
+
+import Sidebar from './Sidebar'
 
 export default function ProfilePage() {
     const navigate = useNavigate()
@@ -62,21 +63,38 @@ export default function ProfilePage() {
 
     return (
         <div className="profile-page">
-            <div className="pp-header">
-                <button className="pp-back" onClick={() => navigate('/dashboard')}>←</button>
-                <div className="pp-title">Profile</div>
-                <div style={{ width: 32 }}></div> {/* spacer */}
+
+            <div className="pp-header" style={{ justifyContent: 'flex-start', paddingLeft: '20px' }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Sidebar />
+                    <div style={{ width: '24px' }}></div>
+                    <div className="db-logo-container" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div style={{
+                            width: '40px',
+                            height: '40px',
+                            background: '#22c55e',
+                            borderRadius: '12px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'black'
+                        }}>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"></path></svg>
+                        </div>
+                        <span style={{ fontSize: '24px', fontWeight: '900', letterSpacing: '-1px', fontFamily: 'Inter, sans-serif' }}>PlusOne</span>
+                    </div>
+                </div>
             </div>
 
             <div className="pp-user-section">
                 <div className="pp-avatar-wrapper">
                     <label htmlFor="avatar-upload" className="pp-avatar" style={avatar ? { backgroundImage: `url(${avatar})`, backgroundSize: 'cover', backgroundPosition: 'center', color: 'transparent', cursor: 'pointer' } : { cursor: 'pointer' }}>
-                        {(!avatar && user?.email) ? user.email[0].toUpperCase() : ''}
+                        {(!avatar && user?.email) ? user.email[0].toUpperCase() : 'D'}
                         <div className="pp-avatar-overlay" style={{ position: 'absolute', bottom: 0, right: 0, background: '#333', borderRadius: '50%', padding: '4px', fontSize: '12px' }}>✏️</div>
                     </label>
                     <input id="avatar-upload" type="file" accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
                 </div>
-                <h1 className="pp-name">Placeholder</h1>
+                <h1 className="pp-name">Dedeepya</h1>
                 <div className="pp-meta">UT Austin • Member since Jan '26</div>
             </div>
 
@@ -108,12 +126,40 @@ export default function ProfilePage() {
             <div className="pp-section">
                 <h3 className="pp-section-title">FAVORITE GENRES</h3>
                 <div className="pp-tags">
-                    <span className="pp-tag">Indie Rock</span>
-                    <span className="pp-tag">Hip Hop</span>
-                    <span className="pp-tag">R&B</span>
+                    {vibeResult ? vibeResult.tags.map(t => (
+                        <span key={t} className="pp-tag">{t}</span>
+                    )) : (
+                        <>
+                            <span className="pp-tag">Indie Rock</span>
+                            <span className="pp-tag">Hip Hop</span>
+                            <span className="pp-tag">R&B</span>
+                        </>
+                    )}
                     <button className="pp-tag-add">+ Add</button>
                 </div>
             </div>
+
+            {vibeResult?.interestedConcerts?.length > 0 && (
+                <div className="pp-section">
+                    <h3 className="pp-section-title">CONCERTS I'M ATTENDING</h3>
+                    <div className="looking-list">
+                        {vibeResult.interestedConcerts.map((evt, i) => (
+                            <div key={i} className="looking-item">
+                                <div
+                                    className="li-img"
+                                    style={{ backgroundImage: `url(${evt.image})` }}
+                                ></div>
+                                <div className="li-info">
+                                    <div className="li-artist">{evt.name}</div>
+                                    <div className="li-place">
+                                        {evt.place} &middot; {evt.date}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             <div className="pp-section">
                 <h3 className="pp-section-title">ABOUT ME</h3>
