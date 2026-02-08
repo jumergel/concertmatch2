@@ -1,0 +1,19 @@
+{
+  "name": "plusone",
+  "version": "1.0.0",
+  "description": "Concert discovery & personality-matching app to find your PlusOne",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node backend/index.js",
+    "client": "cd frontend && npm run dev",
+    "install:all": "npm install && cd frontend && npm install"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
