@@ -1,0 +1,224 @@
+/* Dashboard.css */
+
+/* Override Vite template centering if it’s still affecting layout */
+#root {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: left !important;
+  }
+  
+  /* ===== Upcoming concerts header arrows ===== */
+  .concerts-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .browse-all-link {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    margin-left: 8px;
+  }
+  .browse-all-link:hover {
+    color: white;
+  }
+  
+  .arrow-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.06);
+    color: white;
+    font-size: 22px;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.2s ease, border-color 0.2s ease;
+  }
+  
+  .arrow-btn:hover:not(.disabled) {
+    transform: translateY(-1px);
+    border-color: rgba(57, 255, 136, 0.55);
+  }
+  
+  .arrow-btn.disabled,
+  .arrow-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Section header spacing */
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    margin: 28px 0 14px;
+    padding: 0 24px;
+  }
+  .section-header.margin-top {
+    margin-top: 36px;
+  }
+  
+  /* ===== Concert grid: ALWAYS 5 visible ===== */
+  .concerts-grid {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+    padding: 0 24px 32px;
+  }
+  
+  /* responsive */
+  @media (max-width: 1500px) {
+    .concerts-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    }
+  }
+  @media (max-width: 1200px) {
+    .concerts-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+  }
+  @media (max-width: 900px) {
+    .concerts-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+  }
+  @media (max-width: 560px) {
+    .concerts-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+  
+  /* ===== Card layout (fixed height) ===== */
+  .concert-card {
+    border-radius: 20px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    height: 430px; /* fixed height so cards don't jump */
+    position: relative;
+  }
+  
+  /* Date badge */
+  .cc-date-badge {
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    padding: 8px 10px;
+    display: grid;
+    gap: 2px;
+    min-width: 54px;
+    text-align: center;
+  }
+  .cc-month {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: #39ff88;
+    font-weight: 700;
+  }
+  .cc-day {
+    font-size: 18px;
+    font-weight: 800;
+    color: white;
+    line-height: 1;
+  }
+  
+  .cc-looking-badge {
+    background: #a855f7;
+    color: white;
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  
+  /* ===== IMAGE ===== */
+  .cc-ph-image {
+    width: 100%;
+    height: 200px;
+    background: rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+  }
+  
+  .cc-ph-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.35s ease;
+  }
+  
+  /* tiny hover zoom so image feels bigger */
+  .concert-card:hover .cc-ph-image img {
+    transform: scale(1.04);
+  }
+  
+  /* Body spacing */
+  .cc-body {
+    padding: 16px 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    height: calc(420px - 240px); /* ensures consistent body area */
+  }
+  
+ /* ===== Concert title: fixed height + clamp ===== */
+.cc-artist {
+    font-size: 18px;              /* slightly smaller */
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+  
+    /* Clamp to 2 lines */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  
+    /* Ensure equal vertical space */
+    min-height: calc(1.2em * 2); /* line-height × lines */
+  }
+  
+  
+  .cc-venue,
+  .cc-meta {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 13px;
+  }
+  
+  .cc-price {
+    color: #39ff88;
+    font-weight: 800;
+  }
+  
+  /* button look (won’t break your existing if it already exists) */
+  .btn-outline-sm {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.1);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .btn-outline-sm:hover {
+    border-color: rgba(57, 255, 136, 0.55);
+  }
+/* Make venue/date/time use a normal system font */
+.cc-venue,
+.cc-meta {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  font-weight: 400 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+  

@@ -64,11 +64,12 @@ app.get("/api/concerts", async (req, res) => {
 
         res.json({
             page,
-            results_per_page: PAGE_SIZE,
+            page_size: PAGE_SIZE,
             events: displayEvents,
-            has_more: allEvents.length > PAGE_SIZE, // Primitive check if we got more than we needed
-            serpapi_pagination: data.serpapi_pagination
-        });
+            has_more: allEvents.length > PAGE_SIZE,
+            pagination: data.serpapi_pagination || null
+          });
+          
 
     } catch (err) {
         console.error("Server Error:", err);
