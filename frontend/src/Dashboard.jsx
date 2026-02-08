@@ -10,6 +10,20 @@ export default function Dashboard() {
     const [concertsLoading, setConcertsLoading] = useState(true)
     const [selectedPerson, setSelectedPerson] = useState(null)
 
+    const [hasVibeResult, setHasVibeResult] = useState(!!localStorage.getItem('vibe_data'))
+    const [avatar, setAvatar] = useState(localStorage.getItem('profile_pic'))
+    const [sidebarOpen, setSidebarOpen] = useState(false)
+
+    useEffect(() => {
+        const checkStorage = () => {
+            setHasVibeResult(!!localStorage.getItem('vibe_data'))
+            setAvatar(localStorage.getItem('profile_pic'))
+        }
+        window.addEventListener('storage', checkStorage)
+        return () => window.removeEventListener('storage', checkStorage)
+    }, [])
+
+
     const [showSurvey, setShowSurvey] = useState(false)
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [answers, setAnswers] = useState({})
@@ -181,9 +195,11 @@ export default function Dashboard() {
             }
         }
 
+        localStorage.setItem('vibe_data', JSON.stringify(result))
         setResultData(result)
         setShowSurvey(false)
         setShowResult(true)
+        setHasVibeResult(true)
     }
 
     useEffect(() => {
@@ -300,16 +316,77 @@ export default function Dashboard() {
 
     return (
         <div className="dashboard-container">
+            {sidebarOpen && (
+                <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)}>
+                    <div className="sidebar-menu" onClick={e => e.stopPropagation()}>
+                        <div className="sidebar-header">
+                            <div className="sh-avatar" style={avatar ? { backgroundImage: `url(${avatar})`, backgroundSize: 'cover', color: 'transparent', width: 48, height: 48, borderRadius: '50%' } : { width: 48, height: 48, borderRadius: '50%', background: 'var(--green)', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold' }}>
+                                {(!avatar && user?.email) ? user.email[0].toUpperCase() : ''}
+                            </div>
+                            <div className="sh-info">
+                                <h4 style={{ color: 'white', margin: 0 }}>Placeholder</h4>
+                                <span style={{ color: '#aaa', fontSize: '12px' }}>UT Austin</span>
+                            </div>
+                        </div>
+
+                        <div className="sidebar-item active" onClick={() => { navigate('/dashboard'); setSidebarOpen(false) }}>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '12px' }}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                            Home
+                        </div>
+                        <div className="sidebar-item" onClick={() => { navigate('/community'); setSidebarOpen(false) }}>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '12px' }}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            Community
+                            <span className="sidebar-badge">3</span>
+                        </div>
+                        <div className="sidebar-item" onClick={() => { navigate('/events'); setSidebarOpen(false) }}>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '12px' }}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            My Events
+                        </div>
+                        <div className="sidebar-item" onClick={() => { navigate('/profile'); setSidebarOpen(false) }}>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '12px' }}><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            Profile
+                        </div>
+                    </div>
+                </div>
+            )}
             {/* NAV HEADER */}
             <div className="db-nav">
-                <div className="db-logo">PlusOne</div>
-                <div className="db-user-info">
+                <div className="db-logo" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <button className="menu-btn" onClick={() => setSidebarOpen(true)} style={{ background: 'none', border: 'none', padding: 0, marginRight: 4, cursor: 'pointer' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', width: '24px' }}>
+                            <span style={{ display: 'block', height: '2px', background: 'white', borderRadius: '2px', width: '100%' }}></span>
+                            <span style={{ display: 'block', height: '2px', background: 'white', borderRadius: '2px', width: '100%' }}></span>
+                            <span style={{ display: 'block', height: '2px', background: 'white', borderRadius: '2px', width: '100%' }}></span>
+                        </div>
+                    </button>
+
+                    {/* LOGO MATCHING SCREENSHOT */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <div style={{
+                            width: 32,
+                            height: 32,
+                            background: '#10b981',
+                            borderRadius: '8px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'black'
+                        }}>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                        </div>
+                        <span style={{ fontWeight: 800, fontSize: '20px', letterSpacing: '-0.5px' }}>PlusOne</span>
+                    </div>
+                </div>
+                <div className="db-user-actions" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    <div className="uni-badge" style={{ background: 'rgba(16, 185, 129, 0.2)', color: 'var(--green)', padding: '6px 12px', borderRadius: '100px', fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                        ● Stanford
+                    </div>
                     <div
                         className="avatar-sm clickable"
                         onClick={() => navigate('/profile')}
-                        style={{ cursor: 'pointer', background: 'var(--green)', color: 'black', fontWeight: 'bold', width: '36px', height: '36px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                        style={{ cursor: 'pointer', background: avatar ? `url(${avatar}) center/cover` : 'var(--pink)', color: avatar ? 'transparent' : 'white', fontWeight: 'bold', width: '36px', height: '36px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                     >
-                        {user?.email ? user.email[0].toUpperCase() : 'U'}
+                        {(!avatar && user?.email) ? user.email[0].toUpperCase() : ''}
                     </div>
                 </div>
             </div>
@@ -319,7 +396,12 @@ export default function Dashboard() {
                 <div className="hero-badge">● LIVE MATCHING</div>
                 <h1>Don't have a +1?<br />We'll find you one.</h1>
                 <p>Take a quick personality quiz and get matched with people at your campus who vibe the same way. Because music's better together.</p>
-                <button className="btn-hero" onClick={() => setShowSurvey(true)}>Take the Vibe Check</button>
+                {!hasVibeResult && (
+                    <button className="btn-hero" onClick={() => setShowSurvey(true)}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ marginRight: 8 }}><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+                        Take the Vibe Check
+                    </button>
+                )}
             </div>
 
 

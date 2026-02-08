@@ -7,6 +7,8 @@ export default function ProfilePage() {
     const navigate = useNavigate()
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [avatar, setAvatar] = useState(localStorage.getItem('profile_pic') || null)
+    const [vibeResult, setVibeResult] = useState(JSON.parse(localStorage.getItem('vibe_data')) || null)
 
     // Mock settings state
     const [settings, setSettings] = useState({
@@ -25,6 +27,13 @@ export default function ProfilePage() {
                 setLoading(false)
             }
         })
+
+        const checkStorage = () => {
+            setVibeResult(JSON.parse(localStorage.getItem('vibe_data')) || null)
+            setAvatar(localStorage.getItem('profile_pic') || null)
+        }
+        window.addEventListener('storage', checkStorage)
+        return () => window.removeEventListener('storage', checkStorage)
     }, [navigate])
 
     const handleLogout = async () => {
@@ -34,6 +43,19 @@ export default function ProfilePage() {
 
     const toggleSetting = (key) => {
         setSettings(prev => ({ ...prev, [key]: !prev[key] }))
+    }
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0]
+        if (file) {
+            const reader = new FileReader()
+            reader.onloadend = () => {
+                const base64 = reader.result
+                setAvatar(base64)
+                localStorage.setItem('profile_pic', base64)
+            }
+            reader.readAsDataURL(file)
+        }
     }
 
     if (loading) return <div style={{ background: '#0a0a0a', minHeight: '100vh' }}></div>
@@ -47,8 +69,12 @@ export default function ProfilePage() {
             </div>
 
             <div className="pp-user-section">
-                <div className="pp-avatar">
-                    {user?.email ? user.email[0].toUpperCase() : 'U'}
+                <div className="pp-avatar-wrapper">
+                    <label htmlFor="avatar-upload" className="pp-avatar" style={avatar ? { backgroundImage: `url(${avatar})`, backgroundSize: 'cover', backgroundPosition: 'center', color: 'transparent', cursor: 'pointer' } : { cursor: 'pointer' }}>
+                        {(!avatar && user?.email) ? user.email[0].toUpperCase() : ''}
+                        <div className="pp-avatar-overlay" style={{ position: 'absolute', bottom: 0, right: 0, background: '#333', borderRadius: '50%', padding: '4px', fontSize: '12px' }}>✏️</div>
+                    </label>
+                    <input id="avatar-upload" type="file" accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
                 </div>
                 <h1 className="pp-name">Placeholder</h1>
                 <div className="pp-meta">UT Austin • Member since Jan '26</div>
@@ -56,17 +82,27 @@ export default function ProfilePage() {
 
             <div className="pp-section">
                 <h3 className="pp-section-title">VIBE TYPE</h3>
-                <div className="pp-card-vibe-empty">
-                    <div className="pp-vibe-icon-placeholder">??</div>
-                    <div className="pp-vibe-text">
-                        <strong>Not yet taken</strong>
-                        <span>Take the Vibe Check to discover your concert personality</span>
+                {vibeResult ? (
+                    <div className="pp-card-vibe-filled" style={{ background: '#1a1a1a', border: `1px solid ${vibeResult.color}`, borderRadius: '12px', padding: '20px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+                        <div className="pp-vibe-icon-filled" style={{ background: `linear-gradient(135deg, ${vibeResult.color}, #666)`, width: '48px', height: '48px', borderRadius: '12px', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: '800', color: 'white', fontSize: '18px' }}>{vibeResult.icon}</div>
+                        <div className="pp-vibe-text">
+                            <strong style={{ color: vibeResult.color, fontSize: '18px', display: 'block', marginBottom: '4px' }}>{vibeResult.title}</strong>
+                            <span style={{ color: '#ccc', fontSize: '12px' }}>{vibeResult.desc}</span>
+                        </div>
                     </div>
-                </div>
-                {/* For now, this button just navigates to dashboard where the survey lives, 
-                    or we could make it open the survey if we moved the survey logic. 
-                    Let's just make it a placeholder or navigate to dashboard with intent. */}
-                <button className="btn-hero btn-full" onClick={() => navigate('/dashboard')}>Take the Vibe Check</button>
+                ) : (
+                    <div className="pp-card-vibe-empty">
+                        <div className="pp-vibe-icon-placeholder">??</div>
+                        <div className="pp-vibe-text">
+                            <strong>Not yet taken</strong>
+                            <span>Take the Vibe Check to discover your concert personality</span>
+                        </div>
+                    </div>
+                )}
+
+                {!vibeResult && (
+                    <button className="btn-hero btn-full" onClick={() => navigate('/dashboard')}>Take the Vibe Check</button>
+                )}
             </div>
 
             <div className="pp-section">
