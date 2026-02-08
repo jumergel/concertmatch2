@@ -1,5 +1,6 @@
-
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { supabase } from './supabase'
 import AuthPage from './AuthPage'
 import Dashboard from './Dashboard'
 import ProfilePage from './ProfilePage'
