@@ -18,8 +18,8 @@ export default function MyEventsPage() {
     }, [navigate])
 
     const upcomingEvents = [
-        { id: 1, artist: 'Tame Impala', img: 'https://i.scdn.co/image/ab6761610000e5ebc112521e10228d447f52479e', date: 'Mar 15', genre: 'Psychedelic Rock', venue: 'Moody Center · Austin, TX', status: 'Going with: Alex M.', statusColor: 'var(--green)', price: '$45+' },
-        { id: 2, artist: 'Billie Eilish', img: 'https://i.scdn.co/image/ab6761610000e5eb745b59a685931221b0dc3d4e', date: 'Apr 12', genre: 'Pop', venue: 'Moody Center · Austin, TX', status: 'Going with: Riley P.', statusColor: 'var(--green)', price: '$70+' },
+        { id: 1, artist: 'Tame Impala', img: '/pictures/tame.jpg', date: 'Mar 15', genre: 'Psychedelic Rock', venue: 'Moody Center · Austin, TX', status: 'Going with: Alex M.', statusColor: 'var(--green)', price: '$45+' },
+        { id: 2, artist: 'Billie Eilish', img: '/pictures/billie.jpg', date: 'Apr 12', genre: 'Pop', venue: 'Moody Center · Austin, TX', status: 'Going with: Riley P.', statusColor: 'var(--green)', price: '$70+' },
         { id: 3, artist: 'Kendrick Lamar', img: 'https://i.scdn.co/image/ab6761610000e5eb437b9e2a82505b3d93ff1022', date: 'Apr 20', genre: 'Hip Hop', venue: 'Circuit of the Americas · Austin, TX', status: 'Still looking for a +1 · 89 others looking', statusColor: '#ccc', price: '$85+' }
     ]
 

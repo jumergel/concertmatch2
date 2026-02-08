@@ -76,7 +76,7 @@ export default function ProfilePage() {
                     </label>
                     <input id="avatar-upload" type="file" accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
                 </div>
-                <h1 className="pp-name">Placeholder</h1>
+                <h1 className="pp-name">Dedeepya</h1>
                 <div className="pp-meta">UT Austin • Member since Jan '26</div>
             </div>
 
